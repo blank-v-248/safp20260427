@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — Luca Moretti</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { overflow-x: hidden; }
+
+  /* ── HERO ── */
+  .contact-hero {
+    padding: calc(var(--nav-h) + 5rem) 8vw 3rem;
+    background: var(--dark);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  .contact-hero .section-title { margin-top: .5rem; }
+  .contact-hero p {
+    font-size: .82rem; color: rgba(245,242,237,.5); margin-top: 1.5rem;
+    max-width: 480px; line-height: 2;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .contact-main {
+    display: grid; grid-template-columns: 1fr 1.6fr;
+    align-items: start; gap: 0;
+    min-height: 80vh;
+  }
+
+  /* ── INFO PANEL ── */
+  .contact-info {
+    background: #111009; padding: 4rem 3rem 4rem 8vw;
+    border-right: 1px solid rgba(255,255,255,.06);
+    height: 100%;
+  }
+  .contact-info .section-tag { margin-bottom: 2.5rem; }
+
+  .contact-item {
+    display: flex; gap: 1.4rem; align-items: flex-start; margin-bottom: 2.5rem;
+  }
+  .contact-icon {
+    width: 40px; height: 40px; border: 1px solid rgba(200,169,110,.25);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; color: var(--accent); font-size: .9rem;
+  }
+  .contact-label {
+    font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: .4rem; display: block;
+  }
+  .contact-value { font-size: .85rem; color: var(--cream); line-height: 1.6; }
+  .contact-value a { color: var(--cream); text-decoration: none; transition: color .25s; }
+  .contact-value a:hover { color: var(--accent); }
+
+  .availability {
+    margin-top: 3rem; padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,.07);
+  }
+  .avail-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.2rem; display: block; }
+  .avail-row {
+    display: flex; justify-content: space-between;
+    font-size: .75rem; padding: .5rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    color: rgba(245,242,237,.55);
+  }
+  .avail-status { color: var(--accent); }
+  .avail-status.full { color: var(--mid); }
+
+  /* ── FORM ── */
+  .contact-form {
+    background: var(--dark); padding: 4rem 8vw 4rem 3rem;
+  }
+  .contact-form .section-tag { margin-bottom: 2rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .field { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
+  .field label { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+  .field input,
+  .field textarea,
+  .field select {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
+    color: var(--cream); font-family: 'Montserrat', sans-serif; font-weight: 300;
+    font-size: .82rem; padding: .9rem 1rem; outline: none;
+    transition: border-color .3s; -webkit-appearance: none; appearance: none;
+    border-radius: 0;
+  }
+  .field input:focus,
+  .field textarea:focus,
+  .field select:focus { border-color: var(--accent); background: rgba(200,169,110,.04); }
+  .field input::placeholder,
+  .field textarea::placeholder { color: rgba(245,242,237,.2); }
+  .field textarea { height: 140px; resize: none; }
+  .field select option { background: #1a1814; color: var(--cream); }
+
+  .form-actions { display: flex; align-items: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .form-note { font-size: .68rem; color: var(--mid); line-height: 1.7; }
+  .form-success {
+    display: none; background: rgba(200,169,110,.08);
+    border: 1px solid rgba(200,169,110,.3);
+    padding: 1.2rem 1.5rem; margin-top: 1.5rem;
+    font-size: .8rem; color: var(--accent); line-height: 1.7;
+  }
+
+  @media (max-width: 900px) {
+    .contact-main { grid-template-columns: 1fr; }
+    .contact-info {
+      border-right: none;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 3rem 6vw;
+    }
+    .contact-form { padding: 3rem 6vw; }
+    .form-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="prices.html">Prices</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
+  <a href="prices.html" onclick="toggleMenu()">Prices</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="contact-hero">
+  <span class="section-tag">Get in touch</span>
+  <h1 class="section-title">Let's create<br>something together</h1>
+  <p>I typically respond within 48 hours. For urgent requests, feel free to call or message on WhatsApp.</p>
+</div>
+
+<div class="contact-main">
+
+  <!-- INFO -->
+  <div class="contact-info">
+    <span class="section-tag">Contact details</span>
+
+    <div class="contact-item">
+      <div class="contact-icon">@</div>
+      <div>
+        <span class="contact-label">Email</span>
+        <div class="contact-value"><a href="mailto:hello@lucamoretti.com">hello@lucamoretti.com</a></div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">☎</div>
+      <div>
+        <span class="contact-label">Phone / WhatsApp</span>
+        <div class="contact-value"><a href="tel:+436641234567">+43 664 123 45 67</a></div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">◎</div>
+      <div>
+        <span class="contact-label">Studio address</span>
+        <div class="contact-value">Mariahilfer Straße 12<br>1060 Wien, Austria</div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">▷</div>
+      <div>
+        <span class="contact-label">Social</span>
+        <div class="contact-value">
+          <a href="#">@lucamoretti.photo</a><br>
+          <a href="#">Behance / lucamoretti</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="availability">
+      <span class="avail-title">Availability — 2025</span>
+      <div class="avail-row"><span>May</span><span class="avail-status">Open</span></div>
+      <div class="avail-row"><span>June</span><span class="avail-status">Open</span></div>
+      <div class="avail-row"><span>July</span><span class="avail-status">A few spots</span></div>
+      <div class="avail-row"><span>August</span><span class="avail-status full">Fully booked</span></div>
+      <div class="avail-row"><span>September</span><span class="avail-status">Open</span></div>
+      <div class="avail-row"><span>October</span><span class="avail-status">Open</span></div>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div class="contact-form">
+    <span class="section-tag">Send a message</span>
+
+    <div class="form-row">
+      <div class="field">
+        <label for="fname">First name</label>
+        <input type="text" id="fname" placeholder="Anna">
+      </div>
+      <div class="field">
+        <label for="lname">Last name</label>
+        <input type="text" id="lname" placeholder="Müller">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="email">Email address</label>
+      <input type="email" id="email" placeholder="anna@example.com">
+    </div>
+
+    <div class="field">
+      <label for="phone">Phone (optional)</label>
+      <input type="tel" id="phone" placeholder="+43 …">
+    </div>
+
+    <div class="field">
+      <label for="service">I'm interested in</label>
+      <select id="service">
+        <option value="">Select a service…</option>
+        <option>Portrait Session (€ 290)</option>
+        <option>Half Day Session (€ 490)</option>
+        <option>Full Day Session (€ 890)</option>
+        <option>Wedding Photography (from € 1 900)</option>
+        <option>Editorial / Commercial</option>
+        <option>Something else</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="date">Preferred date (optional)</label>
+      <input type="date" id="date">
+    </div>
+
+    <div class="field">
+      <label for="message">Tell me about your project</label>
+      <textarea id="message" placeholder="Describe your vision, the occasion, the mood you're after — any detail helps…"></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn" onclick="submitForm()">Send message</button>
+      <p class="form-note">I'll reply within 48 hours.<br>Your data is never shared with third parties.</p>
+    </div>
+
+    <div class="form-success" id="formSuccess">
+      ✓ &nbsp; Message received — thank you! I'll be in touch within 48 hours.
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
+  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-social">
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('solid', window.scrollY > 60);
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+  function submitForm() {
+    const fname = document.getElementById('fname').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
+    if (!fname || !email || !message) {
+      alert('Please fill in your name, email, and message.');
+      return;
+    }
+    document.getElementById('formSuccess').style.display = 'block';
+    document.querySelector('.btn').disabled = true;
+    document.querySelector('.btn').style.opacity = '.4';
+  }
+</script>
+</body>
+</html>

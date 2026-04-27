@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — Luca Moretti</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { overflow-x: hidden; }
+
+  .page-header {
+    padding: calc(var(--nav-h) + 4rem) 8vw 2rem;
+    background: var(--dark);
+  }
+  .page-header .section-title { margin-top: .5rem; }
+
+  /* ── FILTER TABS ── */
+  .filters {
+    display: flex; gap: 0; flex-wrap: wrap;
+    padding: 2rem 8vw 0; border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+  .filter-btn {
+    font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--mid); background: none; border: none; cursor: pointer;
+    padding: .8rem 1.4rem; transition: color .25s;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .filter-btn:hover { color: var(--cream); }
+  .filter-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3px; padding: 3px; background: #0a0908;
+  }
+
+  .grid-item {
+    overflow: hidden; cursor: pointer; position: relative;
+    background: #222; aspect-ratio: 3/4;
+  }
+  .grid-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
+  .grid-item.tall { grid-row: span 2; aspect-ratio: 2/3; }
+  .grid-item.square { aspect-ratio: 1; }
+
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    transition: transform .7s ease;
+  }
+  .grid-item:hover .grid-bg { transform: scale(1.06); }
+
+  .grid-overlay {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0); transition: background .4s;
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: flex-end; padding: 1.5rem;
+  }
+  .grid-item:hover .grid-overlay { background: rgba(0,0,0,.45); }
+  .grid-label {
+    font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--cream); opacity: 0; transition: opacity .4s; display: block;
+  }
+  .grid-cat {
+    font-size: .55rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); opacity: 0; transition: opacity .4s .05s; margin-top: .3rem; display: block;
+  }
+  .grid-item:hover .grid-label,
+  .grid-item:hover .grid-cat { opacity: 1; }
+
+  /* Placeholder colors */
+  .grid-item:nth-child(1)  .grid-bg { background: linear-gradient(135deg,#3a2e20,#5a4830); }
+  .grid-item:nth-child(2)  .grid-bg { background: linear-gradient(135deg,#1e2c32,#2e4048); }
+  .grid-item:nth-child(3)  .grid-bg { background: linear-gradient(135deg,#2a2030,#3a3048); }
+  .grid-item:nth-child(4)  .grid-bg { background: linear-gradient(135deg,#201818,#382828); }
+  .grid-item:nth-child(5)  .grid-bg { background: linear-gradient(135deg,#182020,#283830); }
+  .grid-item:nth-child(6)  .grid-bg { background: linear-gradient(135deg,#181820,#282838); }
+  .grid-item:nth-child(7)  .grid-bg { background: linear-gradient(135deg,#201820,#382838); }
+  .grid-item:nth-child(8)  .grid-bg { background: linear-gradient(135deg,#202018,#383828); }
+  .grid-item:nth-child(9)  .grid-bg { background: linear-gradient(135deg,#1c2020,#2c3030); }
+  .grid-item:nth-child(10) .grid-bg { background: linear-gradient(135deg,#221820,#382028); }
+  .grid-item:nth-child(11) .grid-bg { background: linear-gradient(135deg,#1e2018,#2e3028); }
+  .grid-item:nth-child(12) .grid-bg { background: linear-gradient(135deg,#20181c,#30282c); }
+
+  /* hidden state for filter */
+  .grid-item { transition: opacity .4s, transform .4s; }
+  .grid-item.hidden { opacity: 0; pointer-events: none; display: none; }
+
+  @media (max-width: 768px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+    .grid-item.wide { grid-column: span 2; }
+    .grid-item.tall { grid-row: span 1; }
+  }
+  @media (max-width: 480px) {
+    .grid { grid-template-columns: 1fr; }
+    .grid-item.wide { grid-column: span 1; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html" class="active">Portfolio</a></li>
+    <li><a href="prices.html">Prices</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
+  <a href="prices.html" onclick="toggleMenu()">Prices</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="page-header">
+  <span class="section-tag">Selected work</span>
+  <h1 class="section-title">Portfolio</h1>
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="filter('all', this)">All</button>
+  <button class="filter-btn" onclick="filter('portrait', this)">Portraits</button>
+  <button class="filter-btn" onclick="filter('landscape', this)">Landscape</button>
+  <button class="filter-btn" onclick="filter('wedding', this)">Wedding</button>
+  <button class="filter-btn" onclick="filter('editorial', this)">Editorial</button>
+  <button class="filter-btn" onclick="filter('architecture', this)">Architecture</button>
+</div>
+
+<div class="grid" id="grid">
+  <div class="grid-item wide" data-cat="portrait">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Afternoon Light</span><span class="grid-cat">Portrait</span></div>
+  </div>
+  <div class="grid-item" data-cat="landscape">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Morning Fog</span><span class="grid-cat">Landscape</span></div>
+  </div>
+  <div class="grid-item" data-cat="wedding">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">The First Dance</span><span class="grid-cat">Wedding</span></div>
+  </div>
+  <div class="grid-item" data-cat="architecture">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Glass & Steel</span><span class="grid-cat">Architecture</span></div>
+  </div>
+  <div class="grid-item wide" data-cat="landscape">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Alpine Dusk</span><span class="grid-cat">Landscape</span></div>
+  </div>
+  <div class="grid-item" data-cat="editorial">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Vogue Austria</span><span class="grid-cat">Editorial</span></div>
+  </div>
+  <div class="grid-item" data-cat="portrait">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Sofia</span><span class="grid-cat">Portrait</span></div>
+  </div>
+  <div class="grid-item" data-cat="wedding">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">June in Graz</span><span class="grid-cat">Wedding</span></div>
+  </div>
+  <div class="grid-item" data-cat="architecture">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Ringstraße</span><span class="grid-cat">Architecture</span></div>
+  </div>
+  <div class="grid-item" data-cat="editorial">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Campaign 2024</span><span class="grid-cat">Editorial</span></div>
+  </div>
+  <div class="grid-item wide" data-cat="wedding">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Tuscany Wedding</span><span class="grid-cat">Wedding</span></div>
+  </div>
+  <div class="grid-item" data-cat="portrait">
+    <div class="grid-bg"></div>
+    <div class="grid-overlay"><span class="grid-label">Self — 2023</span><span class="grid-cat">Portrait</span></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
+  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-social">
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('solid', window.scrollY > 60);
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+  function filter(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.grid-item').forEach(item => {
+      const match = cat === 'all' || item.dataset.cat === cat;
+      item.classList.toggle('hidden', !match);
+    });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sylverfilm - Fenykeszepsz</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  html, body { height: 100%; overflow: hidden; }
+
+  /* ── SLIDESHOW: horizontal strip ── */
+  .slider-wrap {
+    position: fixed; inset: 0;
+    display: flex; align-items: stretch;
+  }
+  .slides-track {
+    display: flex; width: 500vw; height: 100%;
+    transition: transform .9s cubic-bezier(.77,0,.18,1);
+    will-change: transform;
+  }
+  .slide {
+    width: 100vw; height: 100%; flex-shrink: 0;
+    background-size: cover; background-position: center; position: relative;
+  }
+  .slide::after {
+    content: ''; position: absolute; inset: 0;
+    background: rgba(0,0,0,.38);
+  }
+
+  /* Placeholder gradients — replace with background-image: url(...) */
+  .slide:nth-child(1) { background: linear-gradient(135deg,#2c2416,#5a4a2e); }
+  .slide:nth-child(2) { background: linear-gradient(135deg,#1a2830,#2e4a52); }
+  .slide:nth-child(3) { background: linear-gradient(135deg,#28201a,#4a3228); }
+  .slide:nth-child(4) { background: linear-gradient(135deg,#1a1e28,#2e3a50); }
+  .slide:nth-child(5) { background: linear-gradient(135deg,#201a28,#3a2e4a); }
+
+  /* ── HERO CONTENT ── */
+  .hero-content {
+    position: fixed; z-index: 10;
+    bottom: 0; left: 0; right: 0; top: var(--nav-h);
+    display: flex; flex-direction: column;
+    align-items: flex-start; justify-content: center;
+    padding: 0 10vw; pointer-events: none;
+  }
+  .hero-tag {
+    font-size: .65rem; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1.2rem;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 7vw, 6rem); font-weight: 300; line-height: 1.05;
+    margin-bottom: 1.8rem;
+  }
+  .hero-title em { font-style: italic; color: var(--accent); }
+  .hero-sub {
+    font-size: .75rem; letter-spacing: .1em; color: rgba(245,242,237,.6);
+    max-width: 340px; line-height: 1.9;
+  }
+  .hero-cta {
+    margin-top: 2.5rem; pointer-events: all;
+    font-size: .65rem; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--cream); text-decoration: none; opacity: .7;
+    display: flex; align-items: center; gap: 1rem; transition: opacity .3s;
+  }
+  .hero-cta::before { content: ''; width: 32px; height: 1px; background: var(--accent); }
+  .hero-cta:hover { opacity: 1; }
+
+  /* ── DOTS ── */
+  .dots {
+    position: fixed; bottom: 2.5rem; left: 50%;
+    transform: translateX(-50%); display: flex; gap: .75rem; z-index: 20;
+  }
+  .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(245,242,237,.3); cursor: pointer;
+    transition: background .3s, transform .3s;
+  }
+  .dot.active { background: var(--accent); transform: scale(1.4); }
+
+  /* ── SLIDE COUNTER ── */
+  .counter {
+    position: fixed; bottom: 2.2rem; right: 3rem; z-index: 20;
+    font-size: .62rem; letter-spacing: .2em; color: rgba(245,242,237,.4);
+  }
+
+  /* ── SCROLL ARROWS (desktop hint) ── */
+  .arrow {
+    position: fixed; top: 50%; z-index: 20;
+    transform: translateY(-50%);
+    width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+    border: 1px solid rgba(245,242,237,.2); cursor: pointer;
+    background: rgba(0,0,0,.2); backdrop-filter: blur(4px);
+    transition: border-color .3s, background .3s;
+    font-size: 1rem; color: rgba(245,242,237,.6);
+  }
+  .arrow:hover { border-color: var(--accent); background: rgba(0,0,0,.4); color: var(--cream); }
+  .arrow.left { left: 1.5rem; }
+  .arrow.right { right: 1.5rem; }
+  .arrow.hidden { opacity: 0; pointer-events: none; }
+
+  @media (max-width: 768px) {
+    .arrow { display: none; }
+    .hero-content { padding: 0 6vw; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="index.html" class="logo">Sylverfilm</a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="prices.html">Prices</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
+  <a href="prices.html" onclick="toggleMenu()">Prices</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- SLIDES -->
+<div class="slider-wrap">
+  <div class="slides-track" id="track">
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero-content">
+  <p class="hero-tag">Vienna · Portrait & Landscape</p>
+  <h1 class="hero-title">Light finds<br>its own <em>truth</em></h1>
+  <p class="hero-sub">Fine art photography that captures the quiet, unrepeatable moments between breath and stillness.</p>
+  <a href="portfolio.html" class="hero-cta">View Portfolio</a>
+</div>
+
+<!-- ARROWS -->
+<div class="arrow left" id="arrowLeft" onclick="prev()">&#8592;</div>
+<div class="arrow right" id="arrowRight" onclick="next()">&#8594;</div>
+
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+<div class="counter" id="counter">1 / 5</div>
+
+<script>
+  const track = document.getElementById('track');
+  const dotsEl = document.getElementById('dots');
+  const counter = document.getElementById('counter');
+  const arrowLeft = document.getElementById('arrowLeft');
+  const arrowRight = document.getElementById('arrowRight');
+  const total = 5;
+  let current = 0;
+  let autoTimer;
+
+  // Build dots
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+
+  function goTo(n) {
+    current = (n + total) % total;
+    track.style.transform = `translateX(-${current * 100}vw)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+    counter.textContent = `${current + 1} / ${total}`;
+    arrowLeft.classList.toggle('hidden', current === 0);
+    arrowRight.classList.toggle('hidden', current === total - 1);
+    resetAuto();
+  }
+  function next() { goTo(current + 1); }
+  function prev() { goTo(current - 1); }
+  function resetAuto() { clearInterval(autoTimer); autoTimer = setInterval(() => goTo(current + 1), 5000); }
+
+  goTo(0);
+
+  // Wheel / scroll → horizontal swipe
+  let wheelLock = false;
+  window.addEventListener('wheel', (e) => {
+    if (wheelLock) return;
+    wheelLock = true;
+    if (e.deltaY > 30 || e.deltaX > 30) next();
+    else if (e.deltaY < -30 || e.deltaX < -30) prev();
+    setTimeout(() => wheelLock = false, 900);
+  }, { passive: true });
+
+  // Touch swipe
+  let touchStartX = 0;
+  window.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+  window.addEventListener('touchend', e => {
+    const dx = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(dx) > 50) dx > 0 ? next() : prev();
+  });
+
+  // Keyboard
+  window.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') next();
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') prev();
+  });
+
+  // Nav solid (not needed here since page is fixed, but good to have)
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+</script>
+</body>
+</html>

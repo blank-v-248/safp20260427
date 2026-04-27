@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prices — Luca Moretti</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  body { overflow-x: hidden; }
+
+  .page-header {
+    padding: calc(var(--nav-h) + 5rem) 8vw 4rem;
+    background: var(--dark);
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  .page-header .section-title { margin-top: .5rem; max-width: 500px; }
+  .page-intro {
+    font-size: .82rem; line-height: 2; color: rgba(245,242,237,.55);
+    max-width: 560px; margin-top: 2rem;
+  }
+
+  /* ── CARDS ── */
+  .packages {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1px; background: rgba(255,255,255,.06);
+    margin: 0; padding: 0;
+  }
+  .package {
+    background: #0e0d0b; padding: 3.5rem 2.8rem;
+    transition: background .3s; position: relative;
+  }
+  .package:hover { background: #161410; }
+  .package.featured {
+    background: #13110a;
+    border-top: 2px solid var(--accent);
+  }
+  .package.featured::before {
+    content: 'Most popular';
+    position: absolute; top: -1px; right: 2rem;
+    font-size: .55rem; letter-spacing: .2em; text-transform: uppercase;
+    background: var(--accent); color: var(--dark);
+    padding: .3rem .8rem;
+  }
+
+  .pkg-name {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.6rem;
+    font-weight: 300; margin-bottom: .5rem;
+  }
+  .pkg-tagline { font-size: .72rem; color: var(--mid); margin-bottom: 2rem; }
+  .pkg-price {
+    display: flex; align-items: baseline; gap: .3rem;
+    margin-bottom: .5rem;
+  }
+  .pkg-currency { font-size: 1.1rem; color: var(--accent); }
+  .pkg-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.5rem; font-weight: 300; color: var(--accent); line-height: 1;
+  }
+  .pkg-amount.custom { font-size: 2rem; }
+  .pkg-duration {
+    font-size: .62rem; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--mid); margin-bottom: 2.5rem; display: block;
+  }
+
+  .pkg-features { list-style: none; margin-bottom: 3rem; }
+  .pkg-features li {
+    font-size: .78rem; line-height: 1.6; color: rgba(245,242,237,.6);
+    padding: .7rem 0; border-bottom: 1px solid rgba(255,255,255,.05);
+    display: flex; align-items: flex-start; gap: .8rem;
+  }
+  .pkg-features li::before { content: '—'; color: var(--accent); flex-shrink: 0; }
+
+  /* ── ADD-ONS ── */
+  .addons-section {
+    background: #080706; padding: 5rem 8vw;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .addons-section .section-title { margin: .5rem 0 3rem; }
+  .addons-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  .addon {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .addon-name { font-size: .8rem; color: rgba(245,242,237,.7); }
+  .addon-price { font-size: .8rem; color: var(--accent); white-space: nowrap; margin-left: 1rem; }
+
+  /* ── FAQ ── */
+  .faq-section {
+    background: var(--dark); padding: 5rem 8vw;
+    border-top: 1px solid rgba(255,255,255,.06);
+  }
+  .faq-section .section-title { margin: .5rem 0 3rem; }
+  .faq-item {
+    border-top: 1px solid rgba(255,255,255,.07);
+    padding: 1.5rem 0; cursor: pointer;
+  }
+  .faq-q {
+    font-size: .82rem; display: flex; justify-content: space-between;
+    align-items: center; gap: 1rem;
+  }
+  .faq-icon { color: var(--accent); font-size: 1.2rem; transition: transform .3s; flex-shrink: 0; }
+  .faq-item.open .faq-icon { transform: rotate(45deg); }
+  .faq-a {
+    font-size: .78rem; line-height: 1.9; color: rgba(245,242,237,.55);
+    margin-top: 0; max-height: 0; overflow: hidden;
+    transition: max-height .4s ease, margin-top .3s;
+  }
+  .faq-item.open .faq-a { max-height: 200px; margin-top: 1rem; }
+
+  .cta-row { text-align: center; padding: 4rem 2rem; background: #0e0d0b; }
+  .cta-row p { font-size: .8rem; color: var(--mid); margin-bottom: 1.5rem; }
+
+  @media (max-width: 768px) {
+    .packages { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="navbar">
+  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="portfolio.html">Portfolio</a></li>
+    <li><a href="prices.html" class="active">Prices</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <div class="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="toggleMenu()">Home</a>
+  <a href="about.html" onclick="toggleMenu()">About</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
+  <a href="prices.html" onclick="toggleMenu()">Prices</a>
+  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+</div>
+
+<div class="page-header">
+  <span class="section-tag">Investment</span>
+  <h1 class="section-title">Transparent<br>pricing</h1>
+  <p class="page-intro">Every package is built around what actually matters — time, light, and images that last. All sessions include a pre-shoot consultation and delivery within 3 weeks.</p>
+</div>
+
+<div class="packages">
+  <div class="package">
+    <div class="pkg-name">Portrait</div>
+    <div class="pkg-tagline">Individuals, couples & families</div>
+    <div class="pkg-price">
+      <span class="pkg-currency">€</span>
+      <span class="pkg-amount">290</span>
+    </div>
+    <span class="pkg-duration">up to 1.5 hours · 1 location</span>
+    <ul class="pkg-features">
+      <li>30+ edited digital images</li>
+      <li>Private online gallery (60 days)</li>
+      <li>High-resolution downloads</li>
+      <li>Travel within Vienna included</li>
+    </ul>
+    <a href="contact.html" class="btn">Book now</a>
+  </div>
+
+  <div class="package">
+    <div class="pkg-name">Half Day</div>
+    <div class="pkg-tagline">Extended portraits & lifestyle</div>
+    <div class="pkg-price">
+      <span class="pkg-currency">€</span>
+      <span class="pkg-amount">490</span>
+    </div>
+    <span class="pkg-duration">up to 4 hours · 2 locations</span>
+    <ul class="pkg-features">
+      <li>80+ edited digital images</li>
+      <li>Private online gallery (90 days)</li>
+      <li>High-resolution downloads</li>
+      <li>Outfit changes welcome</li>
+      <li>Travel within Vienna included</li>
+    </ul>
+    <a href="contact.html" class="btn">Book now</a>
+  </div>
+
+  <div class="package featured">
+    <div class="pkg-name">Full Day</div>
+    <div class="pkg-tagline">The complete experience</div>
+    <div class="pkg-price">
+      <span class="pkg-currency">€</span>
+      <span class="pkg-amount">890</span>
+    </div>
+    <span class="pkg-duration">up to 8 hours · multiple locations</span>
+    <ul class="pkg-features">
+      <li>150+ edited digital images</li>
+      <li>Private online gallery (1 year)</li>
+      <li>High-resolution downloads</li>
+      <li>1 fine art print A3 included</li>
+      <li>Same-day preview gallery</li>
+      <li>Travel within Austria included</li>
+    </ul>
+    <a href="contact.html" class="btn">Book now</a>
+  </div>
+
+  <div class="package">
+    <div class="pkg-name">Wedding</div>
+    <div class="pkg-tagline">Your full day, beautifully told</div>
+    <div class="pkg-price">
+      <span class="pkg-currency">€</span>
+      <span class="pkg-amount">1 900</span>
+    </div>
+    <span class="pkg-duration">full day coverage · ceremony & reception</span>
+    <ul class="pkg-features">
+      <li>300+ edited digital images</li>
+      <li>Private online gallery (2 years)</li>
+      <li>Engagement session included</li>
+      <li>Hardcover 30×30 photobook</li>
+      <li>Second shooter available (+€350)</li>
+    </ul>
+    <a href="contact.html" class="btn">Book now</a>
+  </div>
+
+  <div class="package">
+    <div class="pkg-name">Commercial</div>
+    <div class="pkg-tagline">Editorial, product & brand</div>
+    <div class="pkg-price">
+      <span class="pkg-amount custom">Custom</span>
+    </div>
+    <span class="pkg-duration">day rate · licensing on request</span>
+    <ul class="pkg-features">
+      <li>Usage rights included</li>
+      <li>Art direction available</li>
+      <li>Studio or on-location</li>
+      <li>RAW files on request</li>
+      <li>International travel available</li>
+    </ul>
+    <a href="contact.html" class="btn">Get a quote</a>
+  </div>
+</div>
+
+<!-- ADD-ONS -->
+<div class="addons-section">
+  <span class="section-tag">Extras</span>
+  <h2 class="section-title">Add-ons</h2>
+  <div class="addons-grid">
+    <div>
+      <div class="addon"><span class="addon-name">Extra edited image (per image)</span><span class="addon-price">€ 8</span></div>
+      <div class="addon"><span class="addon-name">Rush delivery (48h turnaround)</span><span class="addon-price">€ 120</span></div>
+      <div class="addon"><span class="addon-name">Film roll (shot + developed)</span><span class="addon-price">€ 90</span></div>
+      <div class="addon"><span class="addon-name">Fine art print A3</span><span class="addon-price">from € 65</span></div>
+    </div>
+    <div>
+      <div class="addon"><span class="addon-name">Fine art print A2</span><span class="addon-price">from € 110</span></div>
+      <div class="addon"><span class="addon-name">Photobook 20×20 cm (40 pages)</span><span class="addon-price">from € 195</span></div>
+      <div class="addon"><span class="addon-name">Photobook 30×30 cm (60 pages)</span><span class="addon-price">from € 290</span></div>
+      <div class="addon"><span class="addon-name">Travel outside Austria (per day)</span><span class="addon-price">€ 200 + costs</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <span class="section-tag">Questions</span>
+  <h2 class="section-title">FAQ</h2>
+
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How far in advance should I book? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Portrait and half-day sessions can often be booked within 1–2 weeks. Weddings should be booked 6–12 months in advance, as popular dates fill quickly. Commercial bookings depend on project scope.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">How long until I receive my images? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Portrait sessions are typically delivered within 2–3 weeks. Weddings take 4–6 weeks. Rush delivery (48h) is available as an add-on for portrait sessions.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Do you travel internationally? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Yes. I'm available for travel anywhere in the world. Travel costs (flights, accommodation) are billed at cost, plus a daily travel fee of €200. Contact me for a custom quote.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">What is your cancellation policy? <span class="faq-icon">+</span></div>
+    <div class="faq-a">A 30% deposit secures your date. Cancellations made more than 14 days before the session receive a full refund of the deposit. Cancellations within 14 days forfeit the deposit.</div>
+  </div>
+  <div class="faq-item" onclick="toggleFaq(this)">
+    <div class="faq-q">Do you shoot in bad weather? <span class="faq-icon">+</span></div>
+    <div class="faq-a">Weather is part of photography. Rain, fog, and overcast skies often produce the most interesting light. If conditions are truly unsafe, we'll reschedule at no charge.</div>
+  </div>
+</div>
+
+<div class="cta-row">
+  <p>Still have questions? I'm happy to chat before you commit.</p>
+  <a href="contact.html" class="btn">Get in touch</a>
+</div>
+
+<footer>
+  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
+  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-social">
+    <a href="#">Instagram</a>
+    <a href="#">Behance</a>
+    <a href="#">LinkedIn</a>
+  </div>
+</footer>
+
+<script>
+  window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('solid', window.scrollY > 60);
+  });
+  function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function toggleFaq(el) { el.classList.toggle('open'); }
+</script>
+</body>
+</html>
