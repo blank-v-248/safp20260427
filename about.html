@@ -1,199 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>About — Luca Moretti</title>
+<title>Rólam — Sylverfilm</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { overflow-x: hidden; }
-
+  /* ── HERO: szöveg balra, kép jobbra ── */
   .about-hero {
-    position: relative; height: 100vh;
-    background: linear-gradient(160deg,#2a1f14 0%,#4a3826 60%, #1a1410 100%);
-    background-size: cover; background-position: center;
-    display: flex; align-items: flex-end;
-  }
-  /* Replace with: background-image: url('your-portrait.jpg'); */
-  .about-hero-overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(to top, rgba(26,24,20,1) 0%, rgba(26,24,20,.1) 60%, transparent 100%);
+    min-height: 100vh; padding-top: var(--nav-h);
+    display: grid; grid-template-columns: 1fr 1fr;
+    background: var(--dark);
   }
   .about-hero-text {
-    position: relative; z-index: 2;
-    padding: 4rem 8vw; max-width: 700px;
+    display: flex; flex-direction: column; justify-content: center; align-items: flex-start;
+    padding: 4rem 6vw 4rem 8vw;
   }
-  .about-hero-text .section-tag { margin-bottom: 1rem; }
   .about-hero-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 300; line-height: 1.05;
+    font-size: clamp(2.2rem, 4.5vw, 4rem); font-weight: 500; line-height: 1.15;
+    margin-bottom: 2.5rem;
   }
-  .about-hero-title em { font-style: italic; color: var(--accent); }
-
-  /* ── MAIN CONTENT ── */
-  .about-body-section {
-    background: var(--dark); padding: 6rem 8vw;
-    display: grid; grid-template-columns: 1fr 1.6fr; gap: 6vw; align-items: start;
-  }
-  .about-sidebar { position: sticky; top: calc(var(--nav-h) + 2rem); }
-  .about-stats { display: flex; flex-direction: column; gap: 2.5rem; margin-top: 3rem; }
-  .stat { border-top: 1px solid rgba(255,255,255,.08); padding-top: 1.5rem; }
-  .stat-num {
-    font-family: 'Cormorant Garamond', serif; font-size: 3rem;
-    font-weight: 300; color: var(--accent); display: block; line-height: 1;
-  }
-  .stat-label {
-    font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--mid); margin-top: .5rem; display: block;
+  /* A kép: images/rolam.jpg — ha hiányzik, a színátmenet látszik */
+  .about-photo {
+    background: url(images/rolam.jpg) center/cover no-repeat, linear-gradient(160deg,#2a1f14 0%,#4a3826 60%,#1a1410 100%);
+    min-height: 60vh;
   }
 
-  .about-text-main .section-title { margin-bottom: 2.5rem; }
-  .about-prose {
-    font-size: .85rem; line-height: 2; color: rgba(245,242,237,.7);
+  /* ── TÖRTÉNET ── */
+  .story {
+    background: #111009; padding: 6rem 8vw;
+    border-top: 1px solid rgba(255,255,255,.18);
   }
+  .story-inner { max-width: 720px; }
+  .story .section-title { margin-bottom: 2.5rem; }
+  .about-prose { font-size: .95rem; line-height: 2; color: var(--text); }
   .about-prose p + p { margin-top: 1.5rem; }
-  .about-prose strong { color: var(--cream); font-weight: 400; }
 
-  /* ── GEAR SECTION ── */
-  .gear-section {
-    background: #111009; padding: 5rem 8vw;
-    border-top: 1px solid rgba(255,255,255,.06);
-  }
-  .gear-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 2rem; margin-top: 3rem;
-  }
+  /* ── FELSZERELÉS ── */
+  .gear-section { background: var(--dark); padding: 5rem 8vw; border-top: 1px solid rgba(255,255,255,.18); }
+  .gear-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 3rem; }
   .gear-item { border-top: 1px solid rgba(200,169,110,.25); padding-top: 1.2rem; }
-  .gear-category { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
-  .gear-name { font-size: .82rem; line-height: 1.7; color: rgba(245,242,237,.7); }
+  .gear-category { font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin-bottom: .8rem; }
+  .gear-name { font-size: .92rem; line-height: 1.7; color: var(--text); }
 
   @media (max-width: 768px) {
-    .about-body-section { grid-template-columns: 1fr; }
-    .about-sidebar { position: static; }
-    .about-stats { flex-direction: row; flex-wrap: wrap; }
-    .stat { min-width: 100px; }
+    .about-hero { grid-template-columns: 1fr; }
+    .about-hero-text { padding: 3rem 6vw; }
+    .about-photo { min-height: 55vh; }
   }
 </style>
 </head>
 <body>
 
 <nav id="navbar">
-  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <a href="index.html" class="logo">Sylverfilm</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html" class="active">About</a></li>
-    <li><a href="portfolio.html">Portfolio</a></li>
-    <li><a href="prices.html">Prices</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html">Főoldal</a></li>
+    <li><a href="about.html" class="active">Rólam</a></li>
+    <li><a href="portfolio.html">Portfólió</a></li>
+    <li><a href="prices.html">Árak</a></li>
+    <li><a href="contact.html">Kapcsolat</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Home</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
-  <a href="prices.html" onclick="toggleMenu()">Prices</a>
-  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()">Főoldal</a>
+  <a href="about.html" onclick="toggleMenu()">Rólam</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfólió</a>
+  <a href="prices.html" onclick="toggleMenu()">Árak</a>
+  <a href="contact.html" onclick="toggleMenu()">Kapcsolat</a>
 </div>
 
 <!-- HERO -->
 <div class="about-hero">
-  <div class="about-hero-overlay"></div>
   <div class="about-hero-text">
-    <span class="section-tag">About the artist</span>
-    <h1 class="about-hero-title">I photograph<br>what <em>words</em><br>cannot hold</h1>
+    <span class="section-tag">Rólam</span>
+    <h1 class="about-hero-title">Megörökítem mindazt, amit a szavak nem tudnak elmesélni.</h1>
+    <a href="portfolio.html" class="btn">Portfólió megtekintése</a>
   </div>
+  <div class="about-photo"></div>
 </div>
 
-<!-- BODY -->
-<div class="about-body-section">
-  <div class="about-sidebar">
-    <span class="section-tag">In numbers</span>
-    <div class="about-stats">
-      <div class="stat">
-        <span class="stat-num">12+</span>
-        <span class="stat-label">Years of experience</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">840</span>
-        <span class="stat-label">Sessions completed</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">18</span>
-        <span class="stat-label">Countries photographed</span>
-      </div>
-      <div class="stat">
-        <span class="stat-num">Film<br>& Digital</span>
-        <span class="stat-label">Medium</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="about-text-main">
-    <span class="section-tag">My story</span>
-    <h2 class="section-title">Searching for the<br>in-between moment</h2>
+<!-- TÖRTÉNET -->
+<div class="story">
+  <div class="story-inner">
+    <span class="section-tag">Történetem</span>
+    <h2 class="section-title">Szenvedélyből hivatás</h2>
     <div class="about-prose">
-      <p>I'm <strong>Luca Moretti</strong> — a Vienna-based photographer working at the intersection of portraiture, architecture, and landscape. My camera is a tool for slowing down, for finding the weight inside an ordinary scene.</p>
-      <p>I grew up in the Italian Alps, where light behaves like a living thing — golden at dawn, cruel at midday, consoling at dusk. That upbringing shaped everything I do behind the lens. I've carried that obsession with light across eighteen countries and into studios, forests, city streets, and private homes.</p>
-      <p>With over twelve years of professional work, I've collaborated with editorial clients across Europe, private collectors seeking something permanent, and couples who want their story told without clichés. Every session is a <strong>collaboration</strong>, every frame a shared decision.</p>
-      <p>I believe photography is not about capturing reality — it's about selecting which reality deserves to be remembered. The medium should disappear. Only the feeling should remain.</p>
-      <p>I shoot on both <strong>film and digital</strong>, choosing the format that best serves the mood. Slow, deliberate work on a Hasselblad for editorial and fine art; fast, responsive work on Sony for portraits and events.</p>
+      <p>A filmek világa gyerekkorom óta különösen vonzott. Csodáltam a képességét, hogy milyen fantasztikus közös élményt tud nyújtani a mozi a nézőinek vagy egy vígjáték a családnak, akik kikapcsolódásra vágynak a nappaliban.</p>
+      <p>A Budapesti Corvinus Egyetemen töltött éveim alatt tört fel bennem az audiovizuális alkotás iránti vágy, mely néhány perces, vicces videók formájában bontakozott ki. Ez vezetett be a vágás, operatőrködés, írás és rendezés világába is.</p>
+      <p>Az elmúlt években tovább mélyítettem a tudásomat, elsősorban autodidakta módon. Elkezdtem foglalkozni a professzionális fotózással, valamint videózással, így most már ebből élek meg, ez vált hivatásommá.</p>
     </div>
     <div class="divider"></div>
-    <a href="contact.html" class="btn">Work with me</a>
+    <a href="contact.html" class="btn">Dolgozz velem</a>
   </div>
 </div>
 
-<!-- GEAR -->
+<!-- FELSZERELÉS -->
 <div class="gear-section">
-  <span class="section-tag">Equipment</span>
-  <h2 class="section-title" style="margin-bottom:0">The tools</h2>
+  <span class="section-tag">Felszerelés</span>
+  <h2 class="section-title">Az eszközök</h2>
   <div class="gear-grid">
     <div class="gear-item">
-      <div class="gear-category">Medium Format</div>
-      <div class="gear-name">Hasselblad 500C/M<br>Fujifilm GFX 50S II</div>
+      <div class="gear-category">Kamera</div>
+      <div class="gear-name">Panasonic Lumix S5IIX</div>
     </div>
     <div class="gear-item">
-      <div class="gear-category">Digital</div>
-      <div class="gear-name">Sony A7R V<br>Sony A7 IV</div>
+      <div class="gear-category">Drón</div>
+      <div class="gear-name">DJI Mini 5 Pro</div>
     </div>
     <div class="gear-item">
-      <div class="gear-category">Film</div>
-      <div class="gear-name">Ilford HP5 Plus<br>Kodak Portra 400<br>Fuji Provia 100F</div>
+      <div class="gear-category">Objektívek</div>
+      <div class="gear-name">Lumix 50 mm F/1.8<br>Lumix 85 mm F/1.8<br>Lumix 24-60 mm F/2.8<br>Lumix 70-300 mm<br>Helios 44-2</div>
     </div>
     <div class="gear-item">
-      <div class="gear-category">Lenses</div>
-      <div class="gear-name">Sony 35mm f/1.4 GM<br>Sony 85mm f/1.4 GM<br>Sony 24–70mm f/2.8 GM</div>
+      <div class="gear-category">Továbbiak</div>
+      <div class="gear-name">Rode Wireless Pro<br>DJI RS2 Pro Combo</div>
     </div>
     <div class="gear-item">
-      <div class="gear-category">Lighting</div>
-      <div class="gear-name">Profoto B10<br>Profoto A2<br>Natural light preferred</div>
-    </div>
-    <div class="gear-item">
-      <div class="gear-category">Post-processing</div>
-      <div class="gear-name">Adobe Lightroom<br>Capture One Pro<br>Custom film presets</div>
+      <div class="gear-category">Utómunka</div>
+      <div class="gear-name">Davinci Resolve<br>Adobe Lightroom</div>
     </div>
   </div>
 </div>
 
 <footer>
-  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
-  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-logo">Sylverfilm</div>
+  <p class="footer-copy">© 2026 Sylverfilm. Minden jog fenntartva.</p>
   <div class="footer-social">
-    <a href="#">Instagram</a>
-    <a href="#">Behance</a>
-    <a href="#">LinkedIn</a>
+    <a href="https://instagram.com/sylvester_videography">Instagram</a>
+    <a href="https://youtube.com/@sylverfilm">YouTube</a>
   </div>
 </footer>
 
+<script src="drive.js"></script>
 <script>
   window.addEventListener('scroll', () => {
     document.getElementById('navbar').classList.toggle('solid', window.scrollY > 60);
   });
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
+
+  // Kép a Google Drive "Rólam" mappából (az első kép)
+  if (DRIVE.apiKey && DRIVE.folders.about) {
+    driveImages(DRIVE.folders.about).then(imgs => {
+      if (imgs[0]) document.querySelector('.about-photo').style.background =
+        `url(${driveImg(imgs[0].id, 1600)}) center/cover no-repeat`;
+    }).catch(e => console.warn(e));
+  }
 </script>
 </body>
 </html>

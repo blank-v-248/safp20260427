@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — Luca Moretti</title>
+<title>Portfólió — Sylverfilm</title>
 <link rel="stylesheet" href="style.css">
 <style>
   body { overflow-x: hidden; }
@@ -17,10 +17,10 @@
   /* ── FILTER TABS ── */
   .filters {
     display: flex; gap: 0; flex-wrap: wrap;
-    padding: 2rem 8vw 0; border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 2rem 8vw 0; border-bottom: 1px solid rgba(255,255,255,.18);
   }
   .filter-btn {
-    font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
     color: var(--mid); background: none; border: none; cursor: pointer;
     padding: .8rem 1.4rem; transition: color .25s;
     border-bottom: 2px solid transparent; margin-bottom: -1px;
@@ -32,7 +32,7 @@
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px; padding: 3px; background: #0a0908;
+    gap: 3px; padding: 3px; background: #0a0908; grid-auto-flow: dense;
   }
 
   .grid-item {
@@ -58,11 +58,11 @@
   }
   .grid-item:hover .grid-overlay { background: rgba(0,0,0,.45); }
   .grid-label {
-    font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
+    font-size: .75rem; letter-spacing: .2em; text-transform: uppercase;
     color: var(--cream); opacity: 0; transition: opacity .4s; display: block;
   }
   .grid-cat {
-    font-size: .55rem; letter-spacing: .18em; text-transform: uppercase;
+    font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
     color: var(--accent); opacity: 0; transition: opacity .4s .05s; margin-top: .3rem; display: block;
   }
   .grid-item:hover .grid-label,
@@ -100,13 +100,13 @@
 <body>
 
 <nav id="navbar">
-  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <a href="index.html" class="logo">Sylverfilm</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="portfolio.html" class="active">Portfolio</a></li>
-    <li><a href="prices.html">Prices</a></li>
-    <li><a href="contact.html">Contact</a></li>
+    <li><a href="index.html">Főoldal</a></li>
+    <li><a href="about.html">Rólam</a></li>
+    <li><a href="portfolio.html" class="active">Portfólió</a></li>
+    <li><a href="prices.html">Árak</a></li>
+    <li><a href="contact.html">Kapcsolat</a></li>
   </ul>
   <div class="hamburger" onclick="toggleMenu()">
     <span></span><span></span><span></span>
@@ -114,15 +114,15 @@
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Home</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
-  <a href="prices.html" onclick="toggleMenu()">Prices</a>
-  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()">Főoldal</a>
+  <a href="about.html" onclick="toggleMenu()">Rólam</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfólió</a>
+  <a href="prices.html" onclick="toggleMenu()">Árak</a>
+  <a href="contact.html" onclick="toggleMenu()">Kapcsolat</a>
 </div>
 
 <div class="page-header">
-  <span class="section-tag">Selected work</span>
+  <span class="section-tag">Válogatott munkáim</span>
   <h1 class="section-title">Portfolio</h1>
 </div>
 
@@ -187,15 +187,15 @@
 </div>
 
 <footer>
-  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
-  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-logo">Sylverfilm</div>
+  <p class="footer-copy">© 2026 Sylverfilm. Minden jog fenntartva.</p>
   <div class="footer-social">
-    <a href="#">Instagram</a>
-    <a href="#">Behance</a>
-    <a href="#">LinkedIn</a>
+    <a href="https://instagram.com/sylvester_videography">Instagram</a>
+    <a href="https://youtube.com/@sylverfilm">YouTube</a>
   </div>
 </footer>
 
+<script src="drive.js"></script>
 <script>
   window.addEventListener('scroll', () => {
     document.getElementById('navbar').classList.toggle('solid', window.scrollY > 60);
@@ -210,6 +210,56 @@
       item.classList.toggle('hidden', !match);
     });
   }
+
+  // ── Képek a Google Drive "Portfólió" mappából ──
+  // Az almappák a kategóriák (szűrőgombok), a bennük lévő képek a rács elemei.
+  async function loadPortfolio() {
+    if (!DRIVE.apiKey || !DRIVE.folders.portfolio) return;   // nincs beállítva → marad a minta tartalom
+    try {
+      const top = await driveList(DRIVE.folders.portfolio);
+      const groups = [];
+      const rootImgs = top.filter(isImage);
+      if (rootImgs.length) groups.push({ name: '', id: 'root', imgs: rootImgs });
+      for (const f of top.filter(isFolder)) groups.push({ name: f.name, id: f.id, imgs: await driveImages(f.id) });
+
+      const grid = document.getElementById('grid');
+      const bar = document.querySelector('.filters');
+      grid.innerHTML = '';
+      bar.innerHTML = '';
+
+      const addFilter = (label, cat, active) => {
+        const b = document.createElement('button');
+        b.className = 'filter-btn' + (active ? ' active' : '');
+        b.textContent = label;
+        b.onclick = () => filter(cat, b);
+        bar.appendChild(b);
+      };
+      addFilter('Mind', 'all', true);
+
+      let n = 0;
+      groups.forEach(g => {
+        if (g.name) addFilter(g.name, g.id);
+        g.imgs.forEach(img => {
+          const item = document.createElement('div');
+          item.className = 'grid-item' + (n % 6 === 0 ? ' wide' : '');
+          item.dataset.cat = g.id;
+          const bg = document.createElement('div');
+          bg.className = 'grid-bg';
+          bg.style.background = `url(${driveImg(img.id, n % 6 === 0 ? 1400 : 900)}) center/cover no-repeat`;
+          const ov = document.createElement('div');
+          ov.className = 'grid-overlay';
+          const label = document.createElement('span');
+          label.className = 'grid-label';
+          label.textContent = g.name;
+          ov.appendChild(label);
+          item.append(bg, ov);
+          grid.appendChild(item);
+          n++;
+        });
+      });
+    } catch (e) { console.warn(e); }
+  }
+  loadPortfolio();
 </script>
 </body>
 </html>

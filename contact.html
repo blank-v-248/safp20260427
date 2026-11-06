@@ -1,111 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Contact — Luca Moretti</title>
+<title>Kapcsolat — Sylverfilm</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { overflow-x: hidden; }
-
-  /* ── HERO ── */
-  .contact-hero {
-    padding: calc(var(--nav-h) + 5rem) 8vw 3rem;
-    background: var(--dark);
-    border-bottom: 1px solid rgba(255,255,255,.06);
-  }
+  .contact-hero { padding: calc(var(--nav-h) + 5rem) 8vw 3rem; background: var(--dark); border-bottom: 1px solid rgba(255,255,255,.18); }
   .contact-hero .section-title { margin-top: .5rem; }
-  .contact-hero p {
-    font-size: .82rem; color: rgba(245,242,237,.5); margin-top: 1.5rem;
-    max-width: 480px; line-height: 2;
-  }
+  .contact-hero p { font-size: .92rem; color: var(--text); margin-top: 1.5rem; max-width: 480px; line-height: 2; }
 
-  /* ── MAIN LAYOUT ── */
-  .contact-main {
-    display: grid; grid-template-columns: 1fr 1.6fr;
-    align-items: start; gap: 0;
-    min-height: 80vh;
-  }
+  .contact-main { display: grid; grid-template-columns: 1fr 1.6fr; align-items: start; min-height: 80vh; }
 
-  /* ── INFO PANEL ── */
-  .contact-info {
-    background: #111009; padding: 4rem 3rem 4rem 8vw;
-    border-right: 1px solid rgba(255,255,255,.06);
-    height: 100%;
-  }
+  /* ── ADATOK ── */
+  .contact-info { background: #111009; padding: 4rem 3rem 4rem 8vw; border-right: 1px solid rgba(255,255,255,.18); }
   .contact-info .section-tag { margin-bottom: 2.5rem; }
-
-  .contact-item {
-    display: flex; gap: 1.4rem; align-items: flex-start; margin-bottom: 2.5rem;
-  }
-  .contact-icon {
-    width: 40px; height: 40px; border: 1px solid rgba(200,169,110,.25);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; color: var(--accent); font-size: .9rem;
-  }
-  .contact-label {
-    font-size: .58rem; letter-spacing: .22em; text-transform: uppercase;
-    color: var(--mid); margin-bottom: .4rem; display: block;
-  }
-  .contact-value { font-size: .85rem; color: var(--cream); line-height: 1.6; }
+  .contact-item { display: flex; gap: 1.4rem; align-items: flex-start; margin-bottom: 2.5rem; }
+  .contact-icon { width: 40px; height: 40px; border: 1px solid rgba(200,169,110,.25); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--accent); font-size: .9rem; }
+  .contact-label { font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); margin-bottom: .4rem; display: block; }
+  .contact-value { font-size: .95rem; color: var(--cream); line-height: 1.7; }
   .contact-value a { color: var(--cream); text-decoration: none; transition: color .25s; }
   .contact-value a:hover { color: var(--accent); }
 
-  .availability {
-    margin-top: 3rem; padding-top: 2rem;
-    border-top: 1px solid rgba(255,255,255,.07);
-  }
-  .avail-title { font-size: .6rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mid); margin-bottom: 1.2rem; display: block; }
-  .avail-row {
-    display: flex; justify-content: space-between;
-    font-size: .75rem; padding: .5rem 0;
-    border-bottom: 1px solid rgba(255,255,255,.05);
-    color: rgba(245,242,237,.55);
-  }
-  .avail-status { color: var(--accent); }
-  .avail-status.full { color: var(--mid); }
-
-  /* ── FORM ── */
-  .contact-form {
-    background: var(--dark); padding: 4rem 8vw 4rem 3rem;
-  }
+  /* ── ŰRLAP ── */
+  .contact-form { background: var(--dark); padding: 4rem 8vw 4rem 3rem; }
   .contact-form .section-tag { margin-bottom: 2rem; }
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .field { display: flex; flex-direction: column; gap: .5rem; margin-bottom: 1rem; }
-  .field label { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
-  .field input,
-  .field textarea,
-  .field select {
-    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1);
-    color: var(--cream); font-family: 'Montserrat', sans-serif; font-weight: 300;
-    font-size: .82rem; padding: .9rem 1rem; outline: none;
+  .field label { font-size: .75rem; letter-spacing: .22em; text-transform: uppercase; color: var(--mid); }
+  .field input, .field textarea, .field select {
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.3);
+    color: var(--cream); font-family: 'Inter', sans-serif; font-weight: 400;
+    font-size: .92rem; padding: .9rem 1rem; outline: none; border-radius: 0;
     transition: border-color .3s; -webkit-appearance: none; appearance: none;
-    border-radius: 0;
   }
-  .field input:focus,
-  .field textarea:focus,
-  .field select:focus { border-color: var(--accent); background: rgba(200,169,110,.04); }
-  .field input::placeholder,
-  .field textarea::placeholder { color: rgba(245,242,237,.2); }
+  .field input:focus, .field textarea:focus, .field select:focus { border-color: var(--accent); background: rgba(200,169,110,.04); }
+  .field input::placeholder, .field textarea::placeholder { color: #8f8a82; }
   .field textarea { height: 140px; resize: none; }
   .field select option { background: #1a1814; color: var(--cream); }
 
   .form-actions { display: flex; align-items: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
-  .form-note { font-size: .68rem; color: var(--mid); line-height: 1.7; }
-  .form-success {
-    display: none; background: rgba(200,169,110,.08);
-    border: 1px solid rgba(200,169,110,.3);
-    padding: 1.2rem 1.5rem; margin-top: 1.5rem;
-    font-size: .8rem; color: var(--accent); line-height: 1.7;
-  }
+  .form-note { font-size: .75rem; color: var(--mid); line-height: 1.7; }
+  .form-msg { display: none; padding: 1.2rem 1.5rem; margin-top: 1.5rem; font-size: .9rem; line-height: 1.7; border: 1px solid rgba(200,169,110,.3); background: rgba(200,169,110,.08); color: var(--accent); }
+  .form-msg.error { border-color: rgba(220,100,100,.4); background: rgba(220,100,100,.08); color: #e08a8a; }
 
   @media (max-width: 900px) {
     .contact-main { grid-template-columns: 1fr; }
-    .contact-info {
-      border-right: none;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-      padding: 3rem 6vw;
-    }
+    .contact-info { border-right: none; border-bottom: 1px solid rgba(255,255,255,.18); padding: 3rem 6vw; }
     .contact-form { padding: 3rem 6vw; }
     .form-row { grid-template-columns: 1fr; }
   }
@@ -114,152 +55,148 @@
 <body>
 
 <nav id="navbar">
-  <a href="index.html" class="logo">Luca <span>Moretti</span></a>
+  <a href="index.html" class="logo">Sylverfilm</a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="about.html">About</a></li>
-    <li><a href="portfolio.html">Portfolio</a></li>
-    <li><a href="prices.html">Prices</a></li>
-    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="index.html">Főoldal</a></li>
+    <li><a href="about.html">Rólam</a></li>
+    <li><a href="portfolio.html">Portfólió</a></li>
+    <li><a href="prices.html">Árak</a></li>
+    <li><a href="contact.html" class="active">Kapcsolat</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMenu()">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="index.html" onclick="toggleMenu()">Home</a>
-  <a href="about.html" onclick="toggleMenu()">About</a>
-  <a href="portfolio.html" onclick="toggleMenu()">Portfolio</a>
-  <a href="prices.html" onclick="toggleMenu()">Prices</a>
-  <a href="contact.html" onclick="toggleMenu()">Contact</a>
+  <a href="index.html" onclick="toggleMenu()">Főoldal</a>
+  <a href="about.html" onclick="toggleMenu()">Rólam</a>
+  <a href="portfolio.html" onclick="toggleMenu()">Portfólió</a>
+  <a href="prices.html" onclick="toggleMenu()">Árak</a>
+  <a href="contact.html" onclick="toggleMenu()">Kapcsolat</a>
 </div>
 
 <div class="contact-hero">
-  <span class="section-tag">Get in touch</span>
-  <h1 class="section-title">Let's create<br>something together</h1>
-  <p>I typically respond within 48 hours. For urgent requests, feel free to call or message on WhatsApp.</p>
+  <span class="section-tag">Kapcsolat</span>
+  <h1 class="section-title">Alkossunk együtt<br>valami szépet</h1>
+  <p>Általában 24-48 órán belül válaszolok. Sürgős esetben hívj telefonon.</p>
 </div>
 
 <div class="contact-main">
 
-  <!-- INFO -->
+  <!-- ADATOK -->
   <div class="contact-info">
-    <span class="section-tag">Contact details</span>
-
-    <div class="contact-item">
-      <div class="contact-icon">@</div>
-      <div>
-        <span class="contact-label">Email</span>
-        <div class="contact-value"><a href="mailto:hello@lucamoretti.com">hello@lucamoretti.com</a></div>
-      </div>
-    </div>
+    <span class="section-tag">Elérhetőségek</span>
 
     <div class="contact-item">
       <div class="contact-icon">☎</div>
       <div>
-        <span class="contact-label">Phone / WhatsApp</span>
-        <div class="contact-value"><a href="tel:+436641234567">+43 664 123 45 67</a></div>
+        <span class="contact-label">Telefon</span>
+        <div class="contact-value"><a href="tel:+36304308897">+36 30 430 8897</a></div>
+      </div>
+    </div>
+
+    <div class="contact-item">
+      <div class="contact-icon">@</div>
+      <div>
+        <span class="contact-label">E-mail</span>
+        <div class="contact-value"><a href="mailto:sylvester.andras@gmail.com">sylvester.andras@gmail.com</a></div>
       </div>
     </div>
 
     <div class="contact-item">
       <div class="contact-icon">◎</div>
       <div>
-        <span class="contact-label">Studio address</span>
-        <div class="contact-value">Mariahilfer Straße 12<br>1060 Wien, Austria</div>
+        <span class="contact-label">Cég</span>
+        <div class="contact-value">
+          Sylvester András EV, 59571544<br>
+          2100 Gödöllő, Galagonya utca 7.<br>
+          Adószám: 90385650-1-33
+        </div>
       </div>
     </div>
 
     <div class="contact-item">
       <div class="contact-icon">▷</div>
       <div>
-        <span class="contact-label">Social</span>
+        <span class="contact-label">Közösségi média</span>
         <div class="contact-value">
-          <a href="#">@lucamoretti.photo</a><br>
-          <a href="#">Behance / lucamoretti</a>
+          <a href="https://instagram.com/sylvester_videography">instagram.com/sylvester_videography</a><br>
+          <a href="https://youtube.com/@sylverfilm">youtube.com/@sylverfilm</a>
         </div>
       </div>
     </div>
-
-    <div class="availability">
-      <span class="avail-title">Availability — 2025</span>
-      <div class="avail-row"><span>May</span><span class="avail-status">Open</span></div>
-      <div class="avail-row"><span>June</span><span class="avail-status">Open</span></div>
-      <div class="avail-row"><span>July</span><span class="avail-status">A few spots</span></div>
-      <div class="avail-row"><span>August</span><span class="avail-status full">Fully booked</span></div>
-      <div class="avail-row"><span>September</span><span class="avail-status">Open</span></div>
-      <div class="avail-row"><span>October</span><span class="avail-status">Open</span></div>
-    </div>
   </div>
 
-  <!-- FORM -->
+  <!-- ŰRLAP -->
   <div class="contact-form">
-    <span class="section-tag">Send a message</span>
+    <span class="section-tag">Üzenet küldése</span>
 
-    <div class="form-row">
-      <div class="field">
-        <label for="fname">First name</label>
-        <input type="text" id="fname" placeholder="Anna">
+    <form id="contactForm">
+      <!-- FormSubmit beállítások -->
+      <input type="hidden" name="_subject" value="HONLAP – ÚJ ÜZENET">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="hidden" name="_template" value="table">
+
+      <div class="form-row">
+        <div class="field">
+          <label for="vnev">Vezetéknév</label>
+          <input type="text" id="vnev" name="Vezetéknév" placeholder="Kovács" required>
+        </div>
+        <div class="field">
+          <label for="knev">Keresztnév</label>
+          <input type="text" id="knev" name="Keresztnév" placeholder="Anna" required>
+        </div>
       </div>
+
       <div class="field">
-        <label for="lname">Last name</label>
-        <input type="text" id="lname" placeholder="Müller">
+        <label for="email">E-mail cím</label>
+        <input type="email" id="email" name="email" placeholder="anna@example.com" required>
       </div>
-    </div>
 
-    <div class="field">
-      <label for="email">Email address</label>
-      <input type="email" id="email" placeholder="anna@example.com">
-    </div>
+      <div class="field">
+        <label for="telefon">Telefonszám (nem kötelező)</label>
+        <input type="tel" id="telefon" name="Telefonszám" placeholder="+36 …">
+      </div>
 
-    <div class="field">
-      <label for="phone">Phone (optional)</label>
-      <input type="tel" id="phone" placeholder="+43 …">
-    </div>
+      <div class="field">
+        <label for="szolgaltatas">Miben segíthetek?</label>
+        <select id="szolgaltatas" name="Szolgáltatás">
+          <option value="">Válassz szolgáltatást…</option>
+          <option>Esküvő – Alap</option>
+          <option>Esküvő – Teljes</option>
+          <option>Esküvő – Extra</option>
+          <option>Rendezvényvideózás / Fotózás</option>
+          <option>Kisfilm, rövid tartalmak, egyebek</option>
+          <option>Egyéb</option>
+        </select>
+      </div>
 
-    <div class="field">
-      <label for="service">I'm interested in</label>
-      <select id="service">
-        <option value="">Select a service…</option>
-        <option>Portrait Session (€ 290)</option>
-        <option>Half Day Session (€ 490)</option>
-        <option>Full Day Session (€ 890)</option>
-        <option>Wedding Photography (from € 1 900)</option>
-        <option>Editorial / Commercial</option>
-        <option>Something else</option>
-      </select>
-    </div>
+      <div class="field">
+        <label for="datum">Kívánt időpont (nem kötelező)</label>
+        <input type="date" id="datum" name="Kívánt időpont">
+      </div>
 
-    <div class="field">
-      <label for="date">Preferred date (optional)</label>
-      <input type="date" id="date">
-    </div>
+      <div class="field">
+        <label for="uzenet">Mesélj a projektről</label>
+        <textarea id="uzenet" name="Üzenet" placeholder="Írd le az elképzelésed, az alkalmat, a helyszínt – minden részlet segít…" required></textarea>
+      </div>
 
-    <div class="field">
-      <label for="message">Tell me about your project</label>
-      <textarea id="message" placeholder="Describe your vision, the occasion, the mood you're after — any detail helps…"></textarea>
-    </div>
+      <div class="form-actions">
+        <button type="submit" class="btn" id="sendBtn">Üzenet küldése</button>
+        <p class="form-note">48 órán belül válaszolok.</p>
+      </div>
 
-    <div class="form-actions">
-      <button class="btn" onclick="submitForm()">Send message</button>
-      <p class="form-note">I'll reply within 48 hours.<br>Your data is never shared with third parties.</p>
-    </div>
-
-    <div class="form-success" id="formSuccess">
-      ✓ &nbsp; Message received — thank you! I'll be in touch within 48 hours.
-    </div>
+      <div class="form-msg" id="formMsg"></div>
+    </form>
   </div>
 
 </div>
 
 <footer>
-  <div class="footer-logo">Luca <span style="color:var(--accent)">Moretti</span></div>
-  <p class="footer-copy">© 2025 Luca Moretti Photography. All rights reserved.</p>
+  <div class="footer-logo">Sylverfilm</div>
+  <p class="footer-copy">© 2026 Sylverfilm. Minden jog fenntartva.</p>
   <div class="footer-social">
-    <a href="#">Instagram</a>
-    <a href="#">Behance</a>
-    <a href="#">LinkedIn</a>
+    <a href="https://instagram.com/sylvester_videography">Instagram</a>
+    <a href="https://youtube.com/@sylverfilm">YouTube</a>
   </div>
 </footer>
 
@@ -269,18 +206,33 @@
   });
   function toggleMenu() { document.getElementById('mobileMenu').classList.toggle('open'); }
 
-  function submitForm() {
-    const fname = document.getElementById('fname').value.trim();
-    const email = document.getElementById('email').value.trim();
-    const message = document.getElementById('message').value.trim();
-    if (!fname || !email || !message) {
-      alert('Please fill in your name, email, and message.');
-      return;
+  // Az üzenet a blanka.visy@gmail.com címre megy (FormSubmit szolgáltatáson keresztül)
+  const form = document.getElementById('contactForm');
+  const msg = document.getElementById('formMsg');
+  const btn = document.getElementById('sendBtn');
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.style.opacity = '.4';
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/blanka.visy@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form)))
+      });
+      if (!res.ok) throw new Error();
+      msg.className = 'form-msg';
+      msg.textContent = '✓  Köszönöm az üzenetet! 48 órán belül jelentkezem.';
+      form.reset();
+    } catch (err) {
+      msg.className = 'form-msg error';
+      msg.textContent = 'Hiba történt a küldés közben. Kérlek, írj közvetlenül a sylvester.andras@gmail.com címre.';
+      btn.disabled = false;
+      btn.style.opacity = '1';
     }
-    document.getElementById('formSuccess').style.display = 'block';
-    document.querySelector('.btn').disabled = true;
-    document.querySelector('.btn').style.opacity = '.4';
-  }
+    msg.style.display = 'block';
+  });
 </script>
 </body>
 </html>
