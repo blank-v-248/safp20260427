@@ -4,7 +4,7 @@
 //  Beállítás: lásd beallitas-fejlesztonek.md
 // ─────────────────────────────────────────────────────────────
 const DRIVE = {
-  apiKey: '',            // ← Google API kulcs (csak Drive API, domainre korlátozva)
+  apiKey: 'AIzaSyDHZmF7ZVsMYQvRmcuRpWagzhaDePYptPw',            // ← Google API kulcs (csak Drive API, domainre korlátozva)
   folders: {
     slides:    '1UlEHgZuQWMddQflxryRuQRAVAjp3cpUy',       // ← "Főoldal háttér" mappa ID-ja
     about:     '1fxDw686bphvlG52KjePc2mvZAqswO6TY',       // ← "Rólam" mappa ID-ja (az első képet használja)
