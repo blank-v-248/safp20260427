@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Google Drive kapcsolat teszt</title>
+<style>
+  body { font-family: Arial, sans-serif; font-size: 17px; line-height: 1.6; max-width: 820px; margin: 2rem auto; padding: 0 1rem; color: #222; }
+  p { margin: .4rem 0; padding: .5rem .8rem; border-radius: 5px; background: #f1f1f1; word-break: break-word; }
+  .ok { background: #e3f5e3; }
+  .bad { background: #fde3e3; }
+  .warn { background: #fff4d6; }
+  .h { background: none; font-weight: bold; margin-top: 1.6rem; padding-left: 0; font-size: 1.1rem; }
+  small { color: #666; }
+</style>
+</head>
+<body>
+<h1>Google Drive kapcsolat teszt</h1>
+<p><small>Ezt az oldalt az éles weboldalról nyisd meg, ne a saját gépedről. A teszt végén töröld a repóból, nincs rá szükség.</small></p>
+<div id="out"></div>
+
+<script src="drive.js"></script>
+<script>
+  const out = document.getElementById('out');
+  const log = (txt, cls = '') => { const p = document.createElement('p'); p.className = cls; p.textContent = txt; out.appendChild(p); };
+
+  // Hiba érthető magyarázata
+  function explain(e) {
+    const r = (e.reason || '') + ' ' + (e.apiMessage || '');
+    if (!e.status) return 'Nem érhető el a Google API. Ok: nincs internet, vagy hirdetésblokkoló / böngészőbővítmény blokkolja a googleapis.com címet (próbáld inkognitó ablakban).';
+    if (/referer|referrer/i.test(r)) return 'A kulcs domain-korlátozása nem egyezik. A Google Cloud Console-ban a kulcsnál (Application restrictions → Websites) pontosan ezt add meg: ' + location.origin + '/*';
+    if (/SERVICE_BLOCKED|API_KEY_SERVICE/i.test(r)) return 'A kulcs "API restrictions" beállításában nincs engedélyezve a Google Drive API.';
+    if (/SERVICE_DISABLED|accessNotConfigured|has not been used|is disabled/i.test(r)) return 'A Google Drive API nincs engedélyezve ebben a projektben (APIs & Services → Library → Google Drive API → Enable). Engedélyezés után 1–2 percet várj.';
+    if (/API_KEY_INVALID|keyInvalid|not valid/i.test(r)) return 'Az API kulcs érvénytelen. Ellenőrizd, hogy hiánytalanul másoltad be a drive.js-be.';
+    if (e.status === 404) return 'A mappa nem található: rossz a mappa-azonosító, vagy a mappa nincs megosztva.';
+    return 'Ismeretlen hiba, a részleteket lásd lent.';
+  }
+
+  async function run() {
+    log('Az oldal címe (a kulcs korlátozásában ezt kell megadni): ' + location.origin + '/*');
+
+    if (typeof DRIVE === 'undefined') { log('✗ A drive.js nem töltődött be. Töltsd fel a drive.js fájlt ugyanabba a mappába, ahol ez az oldal van.', 'bad'); return; }
+    if (!DRIVE.apiKey) { log('✗ Az apiKey üres. Vagy nem írtad be a drive.js-be, vagy még a régi fájl van fent (frissíts Ctrl+F5-tel).', 'bad'); return; }
+    log('✓ Az API kulcs megvan (' + DRIVE.apiKey.slice(0, 6) + '…)', 'ok');
+
+    for (const [name, id] of Object.entries(DRIVE.folders)) {
+      log('Mappa: ' + name, 'h');
+      if (!id) { log('Nincs azonosító megadva a drive.js-ben.', 'warn'); continue; }
+      if (/[\/?=:]/.test(id)) { log('✗ Az azonosító hibás. Csak a mappa-link "folders/" utáni része kell, a "?usp=sharing" nélkül. Most ez van benne: ' + id, 'bad'); continue; }
+
+      try {
+        const files = await driveList(id);
+        const imgs = files.filter(isImage);
+        const dirs = files.filter(isFolder);
+        const others = files.filter(f => !isImage(f) && !isFolder(f));
+        if (!files.length) {
+          log('✗ A Google szerint a mappa üres. Ez szinte mindig azt jelenti, hogy a mappa nincs megosztva úgy, hogy "Bárki, akinek megvan a link" → Megtekintő (vagy rossz a mappa-azonosító).', 'bad');
+          continue;
+        }
+        log('✓ A mappa elérhető: ' + imgs.length + ' kép, ' + dirs.length + ' almappa, ' + others.length + ' egyéb fájl.', 'ok');
+        if (dirs.length) log('Almappák: ' + dirs.map(d => d.name).join(', '));
+        if (others.length) log('Nem kép típusú fájlok (ezeket az oldal nem jeleníti meg): ' + others.map(o => o.name + ' [' + o.mimeType + ']').join(', '), 'warn');
+
+        if (imgs.length) {
+          await new Promise(done => {
+            const im = new Image();
+            im.onload = () => { log('✓ A(z) "' + imgs[0].name + '" kép betöltődik.', 'ok'); done(); };
+            im.onerror = () => { log('✗ A mappa látszik, de a(z) "' + imgs[0].name + '" kép nem tölthető be. A fájl nincs nyilvánosan megosztva: nyisd meg a mappát → Megosztás → Általános hozzáférés → "Bárki, akinek megvan a link".', 'bad'); done(); };
+            im.src = driveImg(imgs[0].id, 600);
+          });
+        }
+      } catch (e) {
+        log('✗ ' + explain(e), 'bad');
+        log('Részletek: ' + e.message);
+      }
+    }
+    log('Kész. Ha mindenhol zöld pipa van, a főoldalnak is működnie kell (Ctrl+F5 után).', 'h');
+  }
+  run();
+</script>
+</body>
+</html>
