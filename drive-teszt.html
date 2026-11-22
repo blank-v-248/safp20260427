@@ -62,15 +62,37 @@
         if (dirs.length) log('Almappák: ' + dirs.map(d => d.name).join(', '));
         if (others.length) log('Nem kép típusú fájlok (ezeket az oldal nem jeleníti meg): ' + others.map(o => o.name + ' [' + o.mimeType + ']').join(', '), 'warn');
 
+        // Minden videó állapota: a Google pontos válaszát mutatjuk
+        for (const v of vids) {
+          const mb = v.size ? (v.size / 1048576).toFixed(1) + ' MB' : 'ismeretlen méret';
+          try {
+            const ctl = new AbortController();
+            const r = await fetch(driveVideo(v.id), { signal: ctl.signal });
+            if (r.ok) {
+              ctl.abort();
+              log('✓ "' + v.name + '" (' + mb + ') letölthető.' + (v.size > 50 * 1048576 ? ' Figyelem: 50 MB felett van, lassú lehet, és gyorsabban eléri a Drive korlátját.' : ''), v.size > 50 * 1048576 ? 'warn' : 'ok');
+            } else {
+              let reason = '', msg = '';
+              try { const j = await r.json(); reason = (j.error.errors && j.error.errors[0] && j.error.errors[0].reason) || ''; msg = j.error.message || ''; } catch (e) {}
+              let help = '';
+              if (/quota|rateLimit|download/i.test(reason + ' ' + msg)) help = ' → A Drive átmenetileg letiltotta ennek a fájlnak a letöltését (túl sok letöltés). Ez általában 24 órán belül magától megszűnik. Tartós megoldás: kisebb videó, vagy a videók a GitHub repóba.';
+              else if (r.status === 404) help = ' → A fájl nem található, vagy nincs nyilvánosan megosztva.';
+              else if (r.status === 403) help = ' → Hozzáférési hiba: a fájl nincs megosztva, vagy a kulcs korlátozása tiltja.';
+              log('✗ "' + v.name + '" (' + mb + ') – HTTP ' + r.status + ' ' + reason + ' ' + msg + help, 'bad');
+            }
+          } catch (e) {
+            log('✗ "' + v.name + '" (' + mb + ') – a kérés nem ment át: ' + e.message, 'bad');
+          }
+        }
         if (vids.length) {
           await new Promise(done => {
             let finished = false;
             const end = (txt, cls) => { if (!finished) { finished = true; log(txt, cls); done(); } };
             const v = document.createElement('video');
             v.preload = 'metadata';
-            v.onloadedmetadata = () => end('✓ A(z) "' + vids[0].name + '" videó betöltődik (' + Math.round(v.duration) + ' mp).', 'ok');
-            v.onerror = () => end('✗ A(z) "' + vids[0].name + '" videó nem játszható le. Lehetséges ok: nem H.264 kódolású MP4 (pl. iPhone HEVC / H.265), vagy a fájl nincs nyilvánosan megosztva, vagy a Drive letöltési korlátja.', 'bad');
-            setTimeout(() => end('! A videó 15 mp alatt sem töltődött be. Valószínűleg túl nagy a fájl, vagy rossz a formátum.', 'warn'), 15000);
+            v.onloadedmetadata = () => end('✓ Lejátszási próba: a(z) "' + vids[0].name + '" videó formátuma rendben (' + Math.round(v.duration) + ' mp).', 'ok');
+            v.onerror = () => end('✗ Lejátszási próba: a(z) "' + vids[0].name + '" nem játszható le. Ha a fenti letöltés zöld volt, akkor a formátum a gond (nem H.264 MP4, pl. iPhone HEVC).', 'bad');
+            setTimeout(() => end('! Lejátszási próba: 15 mp alatt sem töltődött be.', 'warn'), 15000);
             v.src = driveVideo(vids[0].id);
           });
         }

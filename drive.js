@@ -4,7 +4,7 @@
 //  Beállítás: lásd beallitas-fejlesztonek.md
 // ─────────────────────────────────────────────────────────────
 const DRIVE = {
-  apiKey: 'AIzaSyDHZmF7ZVsMYQvRmcuRpWagzhaDePYptPw',            // ← Google API kulcs (csak Drive API, domainre korlátozva)
+  apiKey: 'AIzaSyDHZmF7ZVsMYQvRmcuRpWagzhaDePYptPw',            // 
   folders: {
     slides:    '1UlEHgZuQWMddQflxryRuQRAVAjp3cpUy',       // ← "Főoldal háttér" mappa ID-ja
     about:     '1fxDw686bphvlG52KjePc2mvZAqswO6TY',       // ← "Rólam" mappa ID-ja (az első képet használja)
@@ -23,7 +23,7 @@ async function driveList(folderId) {
   const url = 'https://www.googleapis.com/drive/v3/files?' + new URLSearchParams({
     q: `'${folderId}' in parents and trashed = false`,
     key: DRIVE.apiKey,
-    fields: 'files(id,name,mimeType)',
+    fields: 'files(id,name,mimeType,size)',
     orderBy: 'name',
     pageSize: 200
   });
