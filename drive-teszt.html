@@ -52,15 +52,28 @@
         const files = await driveList(id);
         const imgs = files.filter(isImage);
         const dirs = files.filter(isFolder);
-        const others = files.filter(f => !isImage(f) && !isFolder(f));
+        const vids = files.filter(isVideo);
+        const others = files.filter(f => !isImage(f) && !isVideo(f) && !isFolder(f));
         if (!files.length) {
           log('✗ A Google szerint a mappa üres. Ez szinte mindig azt jelenti, hogy a mappa nincs megosztva úgy, hogy "Bárki, akinek megvan a link" → Megtekintő (vagy rossz a mappa-azonosító).', 'bad');
           continue;
         }
-        log('✓ A mappa elérhető: ' + imgs.length + ' kép, ' + dirs.length + ' almappa, ' + others.length + ' egyéb fájl.', 'ok');
+        log('✓ A mappa elérhető: ' + imgs.length + ' kép, ' + vids.length + ' videó, ' + dirs.length + ' almappa, ' + others.length + ' egyéb fájl.', 'ok');
         if (dirs.length) log('Almappák: ' + dirs.map(d => d.name).join(', '));
         if (others.length) log('Nem kép típusú fájlok (ezeket az oldal nem jeleníti meg): ' + others.map(o => o.name + ' [' + o.mimeType + ']').join(', '), 'warn');
 
+        if (vids.length) {
+          await new Promise(done => {
+            let finished = false;
+            const end = (txt, cls) => { if (!finished) { finished = true; log(txt, cls); done(); } };
+            const v = document.createElement('video');
+            v.preload = 'metadata';
+            v.onloadedmetadata = () => end('✓ A(z) "' + vids[0].name + '" videó betöltődik (' + Math.round(v.duration) + ' mp).', 'ok');
+            v.onerror = () => end('✗ A(z) "' + vids[0].name + '" videó nem játszható le. Lehetséges ok: nem H.264 kódolású MP4 (pl. iPhone HEVC / H.265), vagy a fájl nincs nyilvánosan megosztva, vagy a Drive letöltési korlátja.', 'bad');
+            setTimeout(() => end('! A videó 15 mp alatt sem töltődött be. Valószínűleg túl nagy a fájl, vagy rossz a formátum.', 'warn'), 15000);
+            v.src = driveVideo(vids[0].id);
+          });
+        }
         if (imgs.length) {
           await new Promise(done => {
             const im = new Image();
